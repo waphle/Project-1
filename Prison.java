@@ -9,34 +9,48 @@ public class Prison {
 
   public static void main(String[] args){
 
+    boolean playerChoice, playerLastChoice;
+    boolean agentChoice, agentLastChoice;
+    int playerYears=0, agentYears=0;
 
-    //The last choice of each prisoner.
+    Random rand = new Random();
 
-    boolean lastChoicePrisonerA = BETRAYED; //Set initially to BETRAYED for testing
-    boolean lastChoicePrisonerB;
+    System.out.println("Welcome to the Prisoner's Dilemma Game!");
+    System.out.println("I know how to play this game many ways.");
+    System.out.println("Here is a list of the strategies I know:");
+    System.out.println("1. Betray at random");
+    System.out.println("Enter the number for the strategy that you would like me to use:");
 
-    //Example 1: PrisonerB using no prior information
-    lastChoicePrisonerB = randomChoice();
+    System.out.println("I'm sorry, I do not yet know other strategies.");
 
-    System.out.println("If Random Choice is the strategy, B decides to betray : "
-       + lastChoicePrisonerB);
+    int strategyChoice = 1;
 
-    //Example 2: PrisonerB using the last choice made by A to make a decision
-    lastChoicePrisonerB = betrayIfBetrayed(lastChoicePrisonerA);
+    if(strategyChoice == 1){
+      System.out.println("Very good. I will betray at random");
+    }
 
-    System.out.println("If Betray If Betrayed is the strategy, B decides to betray : "
-       + lastChoicePrisonerB);
-  }
+    System.out.println("How many rounds would you like to play?");
 
-  public static boolean randomChoice(){
-      Random rand = new Random();
-      return rand.nextBoolean();
-  }
+    int numRounds = 10, currentRound = 1;
+    System.out.println("Very good. We will play " + numRounds + " rounds together");
 
-  public static boolean betrayIfBetrayed(boolean lastChoice){
-      if(lastChoice == BETRAYED)
-        return BETRAYED;
-      else
-        return randomChoice();
+    System.out.println("Round " + currentRound);
+
+    //Strategy 1: Agent using no prior information and choosing at random
+    agentChoice = rand.nextBoolean();
+
+    //End code for Strategy 1
+
+    System.out.println("I have made my choice. Do you betray?");
+    playerChoice = false;
+
+    System.out.println("I'm not sure what choices were made.");
+
+    playerLastChoice = playerChoice;
+    agentLastChoice = agentChoice;
+
+    System.out.println("I'm sorry, I do not know who won.");
+    System.out.println("I'm sorry, I do not yet know how to play multiple rounds.");
+    System.out.println("Game Over");
   }
 }
