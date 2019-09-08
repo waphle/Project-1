@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner; 
 
 public class Prison {
 
@@ -12,6 +13,7 @@ public class Prison {
     boolean playerChoice, playerLastChoice;
     boolean agentChoice, agentLastChoice;
     int playerYears=0, agentYears=0;
+    Scanner in = new Scanner(System.in); 
 
     Random rand = new Random();
 
@@ -19,14 +21,29 @@ public class Prison {
     System.out.println("I know how to play this game many ways.");
     System.out.println("Here is a list of the strategies I know:");
     System.out.println("1. Betray at random");
-    System.out.println("Enter the number for the strategy that you would like me to use:");
-
-    System.out.println("I'm sorry, I do not yet know other strategies.");
-
+    System.out.println("2. Always betray");
+    System.out.println("3. Always be silent");
+    System.out.println("4. Tit-for-Tat");
+    
     int strategyChoice = 1;
+    System.out.println("Enter the number for the strategy that you would like me to use:");
+    strategyChoice = in.nextInt();
 
-    if(strategyChoice == 1){
-      System.out.println("Very good. I will betray at random");
+    if (strategyChoice == 1) {
+      System.out.println("Very good. I will betray at random.");
+    }
+    else if (strategyChoice == 2) {
+      System.out.println("Very good. I will always betray.");
+    }
+    else if (strategyChoice == 3) {
+      System.out.println("Very good. I will always keep silent.");
+    }
+    else if (strategyChoice == 4) {
+      System.out.println("Very good. I will play with you using the 'tit-for-tat' strategy.");
+    }
+    else {
+      System.out.println("Sorry, you have made an invalide choice of the game strategy. Please try again. Good luck!");
+      return;
     }
 
     System.out.println("How many rounds would you like to play?");
