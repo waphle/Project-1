@@ -75,42 +75,20 @@ public class Prison {
          //Strategy 1: Agent using no prior information and choosing at random
          case 1:
             agentChoice = rand.nextBoolean();             
-            System.out.println("I have made my choice. Do you betray?");
-            playerChoice = in.nextBoolean();
-            if (playerChoice == BETRAYED) {
-               System.out.println("Your choice is to betray.");
-            }
-            else {
-               System.out.println("Your choice is to stay silent.");
-            } 
-            
+            playerChoice = getPlayersChoice();
             break;
             
-         // Strategy 2: Always betrate
+         // Strategy 2: Always betray
          case 2:
             agentChoice = BETRAYED;             
-            System.out.println("I have made my choice. Do you betray?");
-            playerChoice = in.nextBoolean();
-            if (playerChoice == BETRAYED) {
-               System.out.println("Your choice is to betray.");
-            }
-            else {
-               System.out.println("Your choice is to stay silent.");
-            } 
+            playerChoice = getPlayersChoice();
             
             break;
             
          // Strategy 3: Always keep silent
          case 3:
             agentChoice = SILENT;             
-            System.out.println("I have made my choice. Do you betray?");
-            playerChoice = in.nextBoolean();
-            if (playerChoice == BETRAYED) {
-               System.out.println("Your choice is to betray.");
-            }
-            else {
-               System.out.println("Your choice is to stay silent.");
-            } 
+            playerChoice = getPlayersChoice();
             
             break;
             
@@ -118,7 +96,7 @@ public class Prison {
          case 4:
             if (firstRunTFT)
             {
-               // Always start with a cooperational play
+               // Always start the play with a cooperational play
                agentChoice = SILENT;      
                firstRunTFT = false;
             }
@@ -128,15 +106,7 @@ public class Prison {
                agentChoice = playerLastChoice;
             }
             
-            System.out.println("I have made my choice. Do you betray?");
-            playerChoice = in.nextBoolean();
-            
-            if (playerChoice == BETRAYED) {
-               System.out.println("Your choice is to betray.");
-            }
-            else {
-               System.out.println("Your choice is to stay silent.");
-            } 
+            playerChoice = getPlayersChoice();
             
             break;
             
@@ -195,5 +165,32 @@ public class Prison {
       }
 
       System.out.println("Game Over.");
+  }
+  
+  static boolean getPlayersChoice()
+  {
+      String response = "";
+      boolean playerChoice = SILENT;
+      Scanner in = new Scanner(System.in); 
+      
+      System.out.println("I have made my choice. Do you betray (y/n)?");
+      response = in.nextLine();
+      if (response.compareToIgnoreCase("y") == 0 || response.compareToIgnoreCase("yes") == 0)
+      {
+         playerChoice = BETRAYED;
+      }
+      else
+      {
+         playerChoice = SILENT;
+      }
+      
+      if (playerChoice == BETRAYED) {
+         System.out.println("Your choice is to betray.");
+      }
+      else {
+         System.out.println("Your choice is to stay silent.");
+      } 
+      
+      return playerChoice;
   }
 }
