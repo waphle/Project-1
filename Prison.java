@@ -11,9 +11,10 @@ public class Prison {
    {
       boolean playerChoice = SILENT, playerLastChoice = SILENT;
       boolean agentChoice = SILENT, agentLastChoice = SILENT;
-      Integer playerYears = 0, agentYears = 0;
-      Integer numPlayerBetrayed = 0, numAgentBetrayed = 0;
+      int playerYears = 0, agentYears = 0;
+      int numPlayerBetrayed = 0, numAgentBetrayed = 0;
       String agentStrategy = "";
+      boolean firstRunTFT = true; // First run in a Tit-for-Tat strategy
       
       Scanner in = new Scanner(System.in); 
       Random rand = new Random();
@@ -115,10 +116,21 @@ public class Prison {
             
          // Strategy 4: Tit-for-tat
          case 4:
-            // Start with a cooperational play
-            agentChoice = SILENT; // Will cooperate this time      
+            if (firstRunTFT)
+            {
+               // Always start with a cooperational play
+               agentChoice = SILENT;      
+               firstRunTFT = false;
+            }
+            else
+            {
+               // Always repeat the last choice of the player
+               agentChoice = playerLastChoice;
+            }
+            
             System.out.println("I have made my choice. Do you betray?");
             playerChoice = in.nextBoolean();
+            
             if (playerChoice == BETRAYED) {
                System.out.println("Your choice is to betray.");
             }
@@ -126,34 +138,38 @@ public class Prison {
                System.out.println("Your choice is to stay silent.");
             } 
             
-            // Update prisoners' years and betraying times for this cooperation run
-            updateYears(playerChoice, agentChoice, playerYears, agentYears);
-            updateBetrayingTimes(playerChoice, agentChoice, numPlayerBetrayed, numAgentBetrayed);
-            
-            // Continue the play by always resembling the player's last choice
-            agentChoice = playerLastChoice;
-            System.out.println("Let's continue on our play. Do you betray?");
-            playerChoice = in.nextBoolean();
-            if (playerChoice == BETRAYED) {
-               System.out.println("Your choice is to betray.");
-            }
-            else {
-               System.out.println("Your choice is to stay silent.");
-            } 
-
             break;
             
-          default:
-          // Skip running any invalid strategy selection 
+         // Skip running any invalid strategy selection 
+         default:
             continue;
          }
          
          // Update the penalty years of each prisoner
-         updateYears(playerChoice, agentChoice, playerYears, agentYears);
+         if (playerChoice && agentChoice) {
+            playerYears += 2;
+            agentYears += 2;
+         }
+         else if (playerChoice && !agentChoice) {
+            agentYears += 3;
+         }
+         else if (!playerChoice && agentChoice) {
+            playerYears += 3;
+         }
+         else if (!playerChoice && !agentChoice) {
+            playerYears += 1;
+            agentYears += 1;
+         }
          
          // Update betraying times of each prisoner
-         updateBetrayingTimes(playerChoice, agentChoice, numPlayerBetrayed, numAgentBetrayed);
+         if (playerChoice) {
+            numPlayerBetrayed++;
+         }
          
+         if (agentChoice) {
+            numAgentBetrayed++;
+         }
+        
          playerLastChoice = playerChoice;
          agentLastChoice = agentChoice;
          currentRound++;
@@ -179,36 +195,5 @@ public class Prison {
       }
 
       System.out.println("Game Over.");
-  }
-  
-  // Update prisoners' penalty years based on their defection/cooperation choice
-  static void updateYears(boolean betrateA, boolean betrateB, Integer yearsA, Integer yearsB)
-  {
-      if (betrateA && betrateB) {
-         yearsA += 2;
-         yearsB += 2;
-      }
-      else if (betrateA && !betrateB) {
-         yearsB += 3;
-      }
-      else if (!betrateA && betrateB) {
-         yearsA += 3;
-      }
-      else if (!betrateA && !betrateB) {
-         yearsA += 1;
-         yearsB += 1;
-      }
-  }
-  
-  // Update prinsoners' betraying times
-  static void updateBetrayingTimes(boolean betrateA, boolean betrateB, Integer betrayingsA, Integer betrayingsB)
-  {
-      if (betrateA) {
-         betrayingsA++;
-      }
-      
-      if (betrateB) {
-         betrayingsB++;
-      }
   }
 }
