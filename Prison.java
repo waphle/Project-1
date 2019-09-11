@@ -44,8 +44,13 @@ public class Prison {
     } 
     else {
       System.out.println("Sorry, you have made an invalide choice of the game strategy. Please try again. Good luck!");
-    return;
+      return;
+      
     }
+    
+    int numRounds = 10, currentRound = 1
+    System.out.println("How many rounds would you like to play?";
+    numRounds = in.nextInt();
     
 // import java.util.Random;
 // 
