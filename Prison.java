@@ -8,7 +8,7 @@ public class Prison {
   final static boolean SILENT = false;
   
   // Hi Jeff, this is a change to demo a commit to branch 'work 2'.
-  // test comment from Jeff.
+  // Test comment from Jeff. It works!
 
   public static void main(String[] args){
 
