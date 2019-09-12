@@ -10,11 +10,12 @@ public class Prison {
   public static void main(String[] args)
   {
 
-    boolean playerChoice, playerLastChoice = false;
-    boolean agentChoice, agentLastChoice = false;
+    boolean playerChoice = false, playerLastChoice = false;
+    boolean agentChoice = false, agentLastChoice = false;
     int playerYears=0, agentYears=0;
     int numPlayerBetrayed = 0, numAgentBetrayed = 0;
     String agentStrategy = "";
+    boolean firstRunTFT = true;
     
     Scanner in = new Scanner(System.in);
     
@@ -79,10 +80,10 @@ public class Prison {
          playerChoice = in.nextBoolean();
          if (playerChoice == true) {
             System.out.println("Your choice is to betray.";
-            }
+         }
             else {
             System.out.println("Your choice is to keep silent.");
-            }
+         }
       
             break;
             
@@ -145,16 +146,44 @@ public class Prison {
 
      break;
      
+     
+     default:
+     // Skip running any invalid strategy selection (choosing a number option out of range)
+      continue;
      }
 
+
+     // Update the jailtime of each prisoner
+     updateYears(playerChoice, agentChoice, playerYears, agentYears);
+     
+     // Update amount of betrayals of each prisoner
+     updateBetrayingTimes(playerChoice, agentChoice, numPlayerBetrayed, numAgentBetrayed);
+     
      playerLastChoice = playerChoice;
      agentLastChoice = agentChoice;
      currentRound++;
   }
+  
+  // Results
+      System.out.println("Number of Player betrayals: " + numPlayerBetrayed);
+      System.out.println("Number of Aagent betrayed: " + numAgentBetrayed);
+      System.out.println("Player's total sentenced years: " + playerYears);
+      System.out.println("Agent's total sentenced years: " + agentYears);
+      System.out.println("Strategy that Agent used: " + agentStrategy);
+      if (playerYears > agentYears)
+      {
+         System.out.println("Agent won the game!");
+      }
+      else if (playerYears < agentYears)
+      {
+         System.out.println("Player won the game!");
+      }
+      else
+      {
+         System.out.println("Player and Agent tied the game.");
+      }
 
-      System.out.println("I'm sorry, I do not know who won.");
-      System.out.println("I'm sorry, I do not yet know how to play multiple rounds.");
-      System.out.println("Game Over");
+      System.out.println("Game Over.");
   }
 
   // Update prisoners' penalty years based on their defection/cooperation choice
@@ -174,4 +203,4 @@ public class Prison {
          yearsA += 1;
          yearsB += 1;
       }
-    
+ 
