@@ -70,7 +70,7 @@ public class Prison {
       return;
      }
      
-   // Run a selected strategy
+// Run a selected strategy
     while(currentRound <= numRounds) {
       System.out.println("Round" + currentRound);
       
@@ -81,70 +81,70 @@ public class Prison {
             System.out.println("Your choice is to betray.";
             }
             else {
-            System.out.println("Your choice is to stay silent.");
+            System.out.println("Your choice is to keep silent.");
             }
       
             break;
             
-   // Strategy 2: Always betrate
+// Strategy 2: Always betray
       case 2:
       agentChoice = true;             
       System.out.println("I have made my choice. Do you betray?");
       playerChoice = in.nextBoolean();
       if (playerChoice == true) {
-      System.out.println("Your choice is to betrate.");
+         System.out.println("Your choice is to betray.");
       }
       else {
-      System.out.println("Your choice is to keep silent.");
+         System.out.println("Your choice is to keep silent.");
       } 
-
-      // Update the jail time years of each prisoner
-      updateYears(playerChoice, agentChoice, playerYears, agentYears);
-
+      
       break;
-   // Strategy 3: Always keep silent
+      
+// Strategy 3: Always keep silent
       case 3:
       agentChoice = false;             
       System.out.println("I have made my choice. Do you betray?");
       playerChoice = in.nextBoolean();
       if (playerChoice == true) {
-      System.out.println("Your choice is to betrate.");
+         System.out.println("Your choice is to betray.");
       }
       else {
-      System.out.println("Your choice is to keep silent.");
+         System.out.println("Your choice is to keep silent.");
       } 
 
-      // Update the jail time years of each prisoner
-      updateYears(playerChoice, agentChoice, playerYears, agentYears);
-
       break;
-   // Strategy 4: Tit-for-tat
+      
+// Strategy 4: Tit-for-tat
       case 4:
       // Start with a cooperational play
-      agentChoice = true;             
+      agentChoice = true; // This means the bot will cooperate          
       System.out.println("I have made my choice. Do you betray?");
       playerChoice = in.nextBoolean();
       if (playerChoice == true) {
-         System.out.println("Your choice is to betrate.");
+         System.out.println("Your choice is to betray.");
       }
       else {
          System.out.println("Your choice is to keep silent.");
      } 
+     
+     // Update prisoners jailtime and number of betrayals for this cooperation run
      updateYears(playerChoice, agentChoice, playerYears, agentYears);
+     updateBetrayingTimes(playerChoice, agentChoice, numPlayerBetrayed, numAgentBetrayed);
 
      // Continue the play by always resembling the player's last choice
      agentChoice = playerLastChoice;
      System.out.println("Let's continue on our play. Do you betray?");
      playerChoice = in.nextBoolean();
      if (playerChoice == true) {
-      System.out.println("Your choice is to betrate.");
+      System.out.println("Your choice is to betray.");
      }
      else {
          System.out.println("Your choice is to keep silent.");
      } 
          updateYears(playerChoice, agentChoice, playerYears, agentYears);
 
-         break;
+     break;
+     
      }
 
      playerLastChoice = playerChoice;
@@ -158,19 +158,19 @@ public class Prison {
   }
 
   // Update prisoners' penalty years based on their defection/cooperation choice
-  static void updateYears(boolean betrateA, boolean betrateB, Integer yearsA, Integer yearsB)
+  static void updateYears(boolean betrayA, boolean betrayB, Integer yearsA, Integer yearsB)
   {
-      if (betrateA && betrateB) {
+      if (betrayA && betrayB) {
          yearsA += 2;
          yearsB += 2;
       }
-      else if (betrateA && !betrateB) {
+      else if (betrayA && !betrayB) {
          yearsB += 3;
       }
-      else if (!betrateA && betrateB) {
+      else if (!betrayA && betrayB) {
          yearsA += 3;
       }
-      else if (!betrateA && !betrateB) {
+      else if (!betrayA && !betrayB) {
          yearsA += 1;
          yearsB += 1;
       }
