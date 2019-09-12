@@ -63,11 +63,11 @@ public class Prison {
       }
       else
       {
-         System.out.println("Hey, we may play the game in sensible rounds! Why not try it again?");
+         System.out.println("Hey, we may play the game in sensible number of rounds! Why not try it again?");
          return;
       }
 
-      // Run a selected strategy
+      // Run a selected strategy for the given number of rounds
       while (currentRound <= numRounds) {
          System.out.println("Round " + currentRound);
       
