@@ -9,7 +9,6 @@ public class Prison {
 
   public static void main(String[] args)
   {
-
     boolean playerChoice = silent, playerLastChoice = silent;
     boolean agentChoice = silent, agentLastChoice = silent;
     int playerYears=0, agentYears=0;
@@ -18,7 +17,6 @@ public class Prison {
     boolean firstRunTFT = true;
     
     Scanner in = new Scanner(System.in);
-    
     Random rand = new Random();
 
     System.out.println("Welcome to the Prisoner's Dilemma Game!");
@@ -64,129 +62,100 @@ public class Prison {
     
     { 
       System.out.println("Very well, We will play " + numRounds + " rounds together");
+     
     }
     else
     {
       System.out.println("Hey, we may play the game in sensible rounds! Why not try it again?");
       return;
-     }
+    }
      
-// Run a selected strategy
+     
+    // Run a selected strategy
     while(currentRound <= numRounds) {
       System.out.println("Round" + currentRound);
       
-      
-         System.out.println("I havbe made my choice. Do you betray?";
-         playerChoice = in.nextBoolean();
-         if (playerChoice == betrayed) {
-            System.out.println("Your choice is to betray.";
-         }
-            else {
-            System.out.println("Your choice is to keep silent.");
-         }
-      
+      switch (strategyChoice) {
+      //Strategy 1: Agent using no prior information and choosing at random
+         case 1:
+            agentChoice = rand.nextBoolean();             
+            playerChoice = getPlayersChoice();
             break;
             
-// Strategy 2: Always betray
-      case 2:
-      agentChoice = betrayed;             
-      System.out.println("I have made my choice. Do you betray?");
-      playerChoice = in.nextBoolean();
-      if (playerChoice == betrayed) {
-         System.out.println("Your choice is to betray.");
-      }
-      else {
-         System.out.println("Your choice is to keep silent.");
-      } 
-      
-      break;
-      
-// Strategy 3: Always keep silent
-      case 3:
-      agentChoice = silent;             
-      System.out.println("I have made my choice. Do you betray?");
-      playerChoice = in.nextBoolean();
-      if (playerChoice == betrayed) {
-         System.out.println("Your choice is to betray.");
-      }
-      else {
-         System.out.println("Your choice is to keep silent.");
-      } 
-
-      break;
-      
-// Strategy 4: Tit-for-tat
-      case 4:
-         if (firstRunTFT)
-         {
-            // Always start with a cooperational gameplay
+         // Strategy 2: Always betray
+         case 2:
+            agentChoice = BETRAYED;             
+            playerChoice = getPlayersChoice();
             
-            agentChoice = silent;
-            firstRunTFT = false;
+            break;
+            
+         // Strategy 3: Always keep silent
+         case 3:
+            agentChoice = SILENT;             
+            playerChoice = getPlayersChoice();
+            
+            break;
+            
+         // Strategy 4: Tit-for-tat
+         case 4:
+            if (firstRunTFT)
+            {
+               // Always start the play with a cooperational play
+               agentChoice = SILENT;      
+               firstRunTFT = false;
+            }
+            else
+            {
+               // Always repeat the last choice of the player
+               agentChoice = playerLastChoice;
+            }
+            
+            playerChoice = getPlayersChoice();
+            
+            break;
+            
+         // Skip running any invalid strategy selection 
+         default:
+            continue;
          }
-         else
-         {
-            // Always repeat the last choice made by the player
-            agentChoice = playerLastChoice;
+         
+         // Update the penalty years of each prisoner
+         if (playerChoice && agentChoice) {
+            playerYears += 2;
+            agentYears += 2;
          }
-          
+         else if (playerChoice && !agentChoice) {
+            agentYears += 3;
+         }
+         else if (!playerChoice && agentChoice) {
+            playerYears += 3;
+         }
+         else if (!playerChoice && !agentChoice) {
+            playerYears += 1;
+            agentYears += 1;
+         }
+         
+         // Update betraying times of each prisoner
+         if (playerChoice) {
+            numPlayerBetrayed++;
+         }
+         
+         if (agentChoice) {
+            numAgentBetrayed++;
          }
         
-         System.out.println("I have made my choice. Do you betray?");
-         
-         playerChoice = in.nextBoolean();
-         if (playerChoice == betray) {
-            System.out.println("Your choice is to betray.");
-         
-         }
-         else {
-            System.out.println("Your choice is to keep silent.");
-         } 
-       
-         break;
-     
-     // Skip running any invalid strategy selection (choosing a number option out of range)
-     default:
-         continue;
-     }
-
-
-     // Update the jailtime of each prisoner
-     if (playerChoice && agentChoice) {
-     
-        playerYears += 2;
-        agentYears += 2:
-     }
-     else if (playerChoice && !agentChoice) {
-        agentYears += 3;
-     }
-     else if (playerChoice && agentChoice) {
-        playerYears += 3; 
-     }
-     else if (!playerChoice && !agentChoice) {
-        agentYears += 3;
-        playerYears += 3;
-     }
-     
-     // Update amount of betrayals of each prisoner
-     if (playerChoice) {
-        
-        numPlayerBetrayed++;
-     }
-     
-     
-     playerLastChoice = playerChoice;
-     agentLastChoice = agentChoice;
-     currentRound++;
-  }
-  
-  // Output Results
+         playerLastChoice = playerChoice;
+         agentLastChoice = agentChoice;
+         currentRound++;
+      }  
+      
+      // Output Results
       System.out.println("Number of Player betrayals: " + numPlayerBetrayed);
       System.out.println("Number of Aagent betrayed: " + numAgentBetrayed);
       System.out.println("Player's total sentenced years: " + playerYears);
       System.out.println("Agent's total sentenced years: " + agentYears);
       System.out.println("Strategy that Agent used: " + agentStrategy);
-      if (playerYears > agentYears)
+     if (playerYears > agentYears)
       {
          System.out.println("Agent won the game!");
       }
@@ -200,5 +169,32 @@ public class Prison {
       }
 
       System.out.println("Game Over.");
-  }  
   }
+  
+  static boolean getPlayersChoice()
+  {
+      String response = "";
+      boolean playerChoice = SILENT;
+      Scanner in = new Scanner(System.in); 
+      
+      System.out.println("I have made my choice. Do you betray (y/n)?");
+      response = in.nextLine();
+      if (response.compareToIgnoreCase("y") == 0 || response.compareToIgnoreCase("yes") == 0)
+      {
+         playerChoice = BETRAYED;
+      }
+      else
+      {
+         playerChoice = SILENT;
+      }
+      
+      if (playerChoice == BETRAYED) {
+         System.out.println("Your choice is to betray.");
+      }
+      else {
+         System.out.println("Your choice is to stay silent.");
+      } 
+      
+      return playerChoice;
+  }
+}
