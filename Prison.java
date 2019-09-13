@@ -10,8 +10,8 @@ public class Prison {
   public static void main(String[] args)
   {
 
-    boolean playerChoice = false, playerLastChoice = false;
-    boolean agentChoice = false, agentLastChoice = false;
+    boolean playerChoice = silent, playerLastChoice = silent;
+    boolean agentChoice = silent, agentLastChoice = silent;
     int playerYears=0, agentYears=0;
     int numPlayerBetrayed = 0, numAgentBetrayed = 0;
     String agentStrategy = "";
@@ -117,13 +117,23 @@ public class Prison {
       
 // Strategy 4: Tit-for-tat
       case 4:
-      // Start with a cooperational play
-      agentChoice = true; // This means the bot will cooperate          
-      System.out.println("I have made my choice. Do you betray?");
-      playerChoice = in.nextBoolean();
-      if (playerChoice == true) {
-         System.out.println("Your choice is to betray.");
+      if (firstRunTFT)
+      {
+         agentChoice = silent;
+         firstRunTFT = false;
       }
+      else
+      {
+         agentChoice = playerLastChoice
+      
+//       // Start with a cooperational play
+//       agentChoice = true; // This means the bot will cooperate          
+//       System.out.println("I have made my choice. Do you betray?");
+//       playerChoice = in.nextBoolean();
+//       if (playerChoice == true) {
+//          System.out.println("Your choice is to betray.");
+//       }
+      
       else {
          System.out.println("Your choice is to keep silent.");
      } 
