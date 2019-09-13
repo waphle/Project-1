@@ -63,7 +63,7 @@ public class Prison {
       }
       else
       {
-         System.out.println("Hey, we may play the game in sensible number of rounds! Why not try it again?");
+         System.out.println("Hey man, we may play the game in sensible number of rounds! Why not try it again?"); // Easter Egg
          return;
       }
 
