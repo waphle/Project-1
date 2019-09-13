@@ -78,7 +78,7 @@ public class Prison {
       
          System.out.println("I havbe made my choice. Do you betray?";
          playerChoice = in.nextBoolean();
-         if (playerChoice == true) {
+         if (playerChoice == betrayed) {
             System.out.println("Your choice is to betray.";
          }
             else {
@@ -89,10 +89,10 @@ public class Prison {
             
 // Strategy 2: Always betray
       case 2:
-      agentChoice = true;             
+      agentChoice = betrayed;             
       System.out.println("I have made my choice. Do you betray?");
       playerChoice = in.nextBoolean();
-      if (playerChoice == true) {
+      if (playerChoice == betrayed) {
          System.out.println("Your choice is to betray.");
       }
       else {
@@ -103,10 +103,10 @@ public class Prison {
       
 // Strategy 3: Always keep silent
       case 3:
-      agentChoice = false;             
+      agentChoice = silent;             
       System.out.println("I have made my choice. Do you betray?");
       playerChoice = in.nextBoolean();
-      if (playerChoice == true) {
+      if (playerChoice == betrayed) {
          System.out.println("Your choice is to betray.");
       }
       else {
@@ -117,41 +117,32 @@ public class Prison {
       
 // Strategy 4: Tit-for-tat
       case 4:
-      if (firstRunTFT)
-      {
          agentChoice = silent;
-         firstRunTFT = false;
-      }
-      else
-      {
-         agentChoice = playerLastChoice
-      
-//       // Start with a cooperational play
-//       agentChoice = true; // This means the bot will cooperate          
-//       System.out.println("I have made my choice. Do you betray?");
-//       playerChoice = in.nextBoolean();
-//       if (playerChoice == true) {
-//          System.out.println("Your choice is to betray.");
-//       }
-      
-      else {
+         System.out.println("I have made my choice. Do you betray?");
+         playerChoice = in.nextBoolean();
+         if (playerChoice == betrayed) {
+            System.out.println("Your choice is to betray.")
+          
+         }
+         else {
          System.out.println("Your choice is to keep silent.");
-     } 
+         } 
      
-     // Update prisoners jailtime and number of betrayals for this cooperation run
-     updateYears(playerChoice, agentChoice, playerYears, agentYears);
-     updateBetrayingTimes(playerChoice, agentChoice, numPlayerBetrayed, numAgentBetrayed);
+         // Update prisoners jailtime and number of betrayals for this cooperation run
+         updateYears(playerChoice, agentChoice, playerYears, agentYears);
+         updateBetrayingTimes(playerChoice, agentChoice, numPlayerBetrayed, numAgentBetrayed);
 
-     // Continue the play by always resembling the player's last choice
-     agentChoice = playerLastChoice;
-     System.out.println("Let's continue on our play. Do you betray?");
-     playerChoice = in.nextBoolean();
-     if (playerChoice == true) {
-      System.out.println("Your choice is to betray.");
-     }
-     else {
+         // Continue the play by always resembling the player's last choice
+         agentChoice = playerLastChoice;
+         System.out.println("Let's continue on our play. Do you betray?");
+         playerChoice = in.nextBoolean();
+         if (playerChoice == true) {
+         System.out.println("Your choice is to betray.");
+         
+         }
+         else {
          System.out.println("Your choice is to keep silent.");
-     } 
+         } 
          updateYears(playerChoice, agentChoice, playerYears, agentYears);
 
      break;
