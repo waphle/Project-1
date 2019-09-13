@@ -1,82 +1,78 @@
 import java.util.Random;
-import java.util.Scanner;
+import java.util.Scanner; 
 
 public class Prison {
-  //True : the prisoner betrayed.
-  //False : the prisoner stayed silent.
-  final static boolean BETRAYED = true;
-  final static boolean SILENT = false;
+   //True : the prisoner betrayed.
+   //False : the prisoner stayed silent.
+   final static boolean BETRAYED = true;
+   final static boolean SILENT = false;
 
-  public static void main(String[] args)
-  {
-    boolean playerChoice = silent, playerLastChoice = silent;
-    boolean agentChoice = silent, agentLastChoice = silent;
-    int playerYears=0, agentYears=0;
-    int numPlayerBetrayed = 0, numAgentBetrayed = 0;
-    String agentStrategy = "";
-    boolean firstRunTFT = true;
-    
-    Scanner in = new Scanner(System.in);
-    Random rand = new Random();
+   public static void main(String[] args)
+   {
+      boolean playerChoice = SILENT, playerLastChoice = SILENT;
+      boolean agentChoice = SILENT, agentLastChoice = SILENT;
+      int playerYears = 0, agentYears = 0;
+      int numPlayerBetrayed = 0, numAgentBetrayed = 0;
+      String agentStrategy = "";
+      boolean firstRunTFT = true; // First run in a Tit-for-Tat strategy
+      
+      Scanner in = new Scanner(System.in); 
+      Random rand = new Random();
+      
+      System.out.println("Welcome to the Prisoner's Dilemma Game!");
+      System.out.println("I know how to play this game many ways.");
+      System.out.println("Here is a list of the strategies I know:");
+      System.out.println("1. Betray at random");
+      System.out.println("2. Always betray");
+      System.out.println("3. Always stay silent");
+      System.out.println("4. Tit-for-Tat");
+       
+      int strategyChoice = 1;
+      System.out.println("Enter the number for the strategy that you would like me to use:");
+      strategyChoice = in.nextInt();
+   
+      if (strategyChoice == 1) {
+         System.out.println("Very good. I will betray at random.");
+         agentStrategy = "Random";
+      }
+      else if (strategyChoice == 2) {
+         System.out.println("Very good. I will always betray.");
+         agentStrategy = "Always Betraying";
+      }
+      else if (strategyChoice == 3) {
+         System.out.println("Very good. I will always stay SILENT.");
+         agentStrategy = "Always Coorperating";
+      }
+      else if (strategyChoice == 4) {
+         System.out.println("Very good. I will play with you using the 'tit-for-tat' strategy.");
+         agentStrategy = "Tit-for-Tat";
+      }
+      else {
+         System.out.println("Oops, you have made an invalid choice of the game strategies. Please try to play the game again. Good luck!");
+         agentStrategy = "Invalid Strategy";
+         return;
+      }
+      
+      int numRounds = 10, currentRound = 1;
+      System.out.println("How many rounds would you like to play?");
+      numRounds = in.nextInt();
+   
+      if (numRounds > 0)
+      {
+         System.out.println("Very good. We will play " + numRounds + " rounds together");
+      }
+      else
+      {
+         System.out.println("Hey, we may play the game in sensible number of rounds! Why not try it again?");
+         return;
+      }
 
-    System.out.println("Welcome to the Prisoner's Dilemma Game!");
-    System.out.println("I know how to play this game many ways.");
-    System.out.println("Here is a list of the strategies I know:");
-    System.out.println("1. Betray at random");
-    System.out.println("2. Always betray");
-    System.out.println("3. Always be silent");
-    System.out.println("4. Tit-for-Tat");
-    
-    int strategyChoice = 1;
-    System.out.println("Enter the number for the strategy that you would like me to use: ";
-    strategyChoice = in.nextInt();
-    
-    if (strategyChoice == 1) {
-      System.out.println("Very well. I will betray at random.");
-      agentStrategy = "Random";
-    }
-    else if (strategyChoice == 2) {
-      System.out.println("Very well. I will always betray.");
-      agentStrategy = "Always betraying";
-    }
-    else if (strategyChoice == 3) {
-      System.out.println("Very well. I will always keep silent.");
-      agentStrategy = "Always cooperating";
-    }
-    else if (strategyChoice == 4) {
-      System.out.println("Very well. I will play with you using the 'tit-for-tat' strategy.");
-      agentStrategy = "Tit-for-tat";
-    } 
-    else {
-      System.out.println("Sorry, you have made an invalide choice of the game strategy. Please try again. Good luck!");
-      agentStrategy = "Invalid Stratgy";
-      return;
+      // Run a selected strategy for the given number of rounds
+      while (currentRound <= numRounds) {
+         System.out.println("Round " + currentRound);
       
-    }
-    
-    int numRounds = 10, currentRound = 1
-    System.out.println("How many rounds would you like to play?";
-    numRounds = in.nextInt();
-    
-    if (numRounds > 0)
-    
-    { 
-      System.out.println("Very well, We will play " + numRounds + " rounds together");
-     
-    }
-    else
-    {
-      System.out.println("Hey, we may play the game in sensible rounds! Why not try it again?");
-      return;
-    }
-     
-     
-    // Run a selected strategy
-    while(currentRound <= numRounds) {
-      System.out.println("Round" + currentRound);
-      
-      switch (strategyChoice) {
-      //Strategy 1: Agent using no prior information and choosing at random
+         switch (strategyChoice) {
+         //Strategy 1: Agent using no prior information and choosing at random
          case 1:
             agentChoice = rand.nextBoolean();             
             playerChoice = getPlayersChoice();
@@ -147,15 +143,15 @@ public class Prison {
          playerLastChoice = playerChoice;
          agentLastChoice = agentChoice;
          currentRound++;
-      }  
-      
-      // Output Results
-      System.out.println("Number of Player betrayals: " + numPlayerBetrayed);
+      }
+
+      // Output results
+      System.out.println("Number of Player BETRAYED: " + numPlayerBetrayed);
       System.out.println("Number of Aagent betrayed: " + numAgentBetrayed);
       System.out.println("Player's total sentenced years: " + playerYears);
       System.out.println("Agent's total sentenced years: " + agentYears);
       System.out.println("Strategy that Agent used: " + agentStrategy);
-     if (playerYears > agentYears)
+      if (playerYears > agentYears)
       {
          System.out.println("Agent won the game!");
       }
@@ -197,4 +193,4 @@ public class Prison {
       
       return playerChoice;
   }
- }
+}
